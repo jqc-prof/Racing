@@ -22,7 +22,7 @@ namespace Race
         private void Update()
         {
             // is the car is the right way up
-            if (transform.up.y > 0f || m_Rigidbody.velocity.magnitude > m_VelocityThreshold)
+            if (transform.up.y > 0f || m_Rigidbody.velocity.magnitude > m_VelocityThreshold || Mathf.Abs(Vector3.Angle(Vector3.up, transform.up)) < 30f)
             {
                 m_LastOkTime = Time.time;
             }

@@ -1,81 +1,83 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using JiaLab6;
 
-public class CarController : MonoBehaviour
+namespace JiaLab6
 {
-    [SerializeField] WheelCollider frontRight;
-    [SerializeField] WheelCollider frontLeft;
-    [SerializeField] WheelCollider rearRight;
-    [SerializeField] WheelCollider rearLeft;
-    [SerializeField] Light brakeLightLeft;
-    [SerializeField] Light brakeLightRight;
-
-
-    public float acc = 500f;
-    public float brake = 300f;
-    private float currentAcc = 0f;
-    private float currentBrake = 0f;
-    public float maxTurn = 15f;
-    private float currentTurn = 0f;
-    private void FixedUpdate()
+    public class CarController : MonoBehaviour
     {
-        currentAcc = acc * Input.GetAxis("Vertical");
-        if (Input.GetKey(KeyCode.Space))
+        [SerializeField] WheelCollider frontRight;
+        [SerializeField] WheelCollider frontLeft;
+        [SerializeField] WheelCollider rearRight;
+        [SerializeField] WheelCollider rearLeft;
+        [SerializeField] Light brakeLightLeft;
+        [SerializeField] Light brakeLightRight;
+        [SerializeField] Transform frontRightWheel;
+        [SerializeField] Transform frontLeftWheel;
+        [SerializeField] Transform rearRightWheel;
+        [SerializeField] Transform rearLeftWheel;
+
+        public Rigidbody rb;
+        public float acc = 10000f;
+        public float brake = 9000f;
+        private float currentAcc = 0f;
+        private float currentBrake = 0f;
+        public float maxTurn = 30f;
+        private float currentTurn = 0f;
+
+        private void Start()
         {
-            currentBrake = brake;
-            if(currentAcc > 50f)
+            rb = GetComponent<Rigidbody>();
+            rb.centerOfMass = new Vector3(0f, -0.5f, 0f);
+        }
+        private void FixedUpdate()
+        {
+            currentAcc = acc * Input.GetAxis("Vertical");
+            if (Input.GetKey(KeyCode.Space))
             {
-                //Play brake sound
+                currentBrake = brake;
+                //Enable brake lights
+                brakeLightLeft.enabled = true;
+                brakeLightRight.enabled = true;
+                float zRotation = -Input.GetAxis("Horizontal") * 8f * Time.deltaTime;
+                frontLeft.transform.Rotate(Vector3.forward, zRotation);
+                frontRight.transform.Rotate(Vector3.forward, zRotation);
             }
-            //Enable brake lights
-            brakeLightLeft.enabled = true;
-            brakeLightRight.enabled = true;
-            float zRotation = -Input.GetAxis("Horizontal") * 8f * Time.deltaTime;
-            frontLeft.transform.Rotate(Vector3.forward, zRotation);
-            frontRight.transform.Rotate(Vector3.forward, zRotation);
+            else
+            {
+                
+                brakeLightLeft.enabled = false;
+                brakeLightRight.enabled = false;
+                currentBrake = 0f;
+            }
+
+            frontRight.motorTorque = currentAcc;
+            frontLeft.motorTorque = currentAcc;
+
+            frontRight.brakeTorque = currentBrake;
+            frontLeft.brakeTorque = currentBrake;
+
+            currentTurn = maxTurn * Input.GetAxis("Horizontal");
+            frontLeft.steerAngle = currentTurn;
+            frontRight.steerAngle = currentTurn;
+
+            TurnWheels(frontLeft, frontLeftWheel);
+            TurnWheels(frontRight, frontRightWheel);
+            TurnWheels(rearLeft, rearLeftWheel);
+            TurnWheels(rearRight, rearRightWheel);
         }
-        else
+
+        void TurnWheels(WheelCollider collider, Transform trans)
         {
-            //Play acceleration sound
-            brakeLightLeft.enabled = false;
-            brakeLightRight.enabled = false;
-            TurnWheels();
-            currentBrake = 0f;
-        }
+            Vector3 Pos;
+            Quaternion Rot;
 
-        frontRight.motorTorque = currentAcc;
-        frontLeft.motorTorque = currentAcc;
+            collider.GetWorldPose(out Pos, out Rot);
 
-        frontRight.brakeTorque = currentBrake;
-        frontLeft.brakeTorque = currentBrake;
+            trans.position = Pos;
+            trans.rotation = Rot;
 
-        currentTurn = maxTurn * Input.GetAxis("Horizontal");
-        frontLeft.steerAngle = currentTurn;
-        frontRight.steerAngle = currentTurn;
-    }
-
-    void TurnWheels()
-    {
-        float frontLeftRotation = frontLeft.rpm * 360f * Time.deltaTime;
-        float frontRightRotation = frontRight.rpm * 360f * Time.deltaTime;
-        float rearLeftRotation = rearLeft.rpm * 360f * Time.deltaTime;
-        float rearRightRotation = rearRight.rpm * 360f * Time.deltaTime;
-        frontLeft.transform.Rotate(Vector3.right, frontLeftRotation);
-        frontRight.transform.Rotate(Vector3.right, frontRightRotation);
-        rearLeft.transform.Rotate(Vector3.right, rearLeftRotation);
-        rearRight.transform.Rotate(Vector3.right, rearRightRotation);
-
-        float zRotation = -Mathf.Clamp(Input.GetAxis("Horizontal")*6f, -30f, 30f) * 6f * Time.deltaTime;
-        frontLeft.transform.Rotate(Vector3.forward, zRotation);
-        frontRight.transform.Rotate(Vector3.forward, zRotation);
-
-        if (Mathf.Approximately(Input.GetAxis("Horizontal"), 0f))
-        {
-            frontLeft.transform.Rotate(Vector3.right, frontLeftRotation * 0.8f);
-            frontRight.transform.Rotate(Vector3.right, frontRightRotation * 0.8f);
-            rearLeft.transform.Rotate(Vector3.right, rearLeftRotation * 0.8f);
-            rearRight.transform.Rotate(Vector3.right, rearRightRotation * 0.8f);
         }
     }
 }
