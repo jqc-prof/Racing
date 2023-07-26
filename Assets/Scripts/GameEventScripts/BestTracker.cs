@@ -27,24 +27,6 @@ namespace JiaLab6
                 milBest.text = LapTimeController.milliseconds.ToString("000");
                 LapTimeController.totalTime = 0f;
             }
-            /*
-            if(LapTimeController.seconds <= 9)
-            {
-                secBest.text = LapTimeController.seconds.ToString("00") + ".";
-            }
-            else
-            {
-                secBest.text = LapTimeController.seconds.ToString("0") + ".";
-            }
-
-            if (LapTimeController.minutes <= 9)
-            {
-                milBest.text = LapTimeController.minutes.ToString("00") + ".";
-            }
-            else
-            {
-                milBest.text = LapTimeController.minutes.ToString("0") + ".";
-            }*/
             HalfTrig.SetActive(true);
             FinishTrig.SetActive(false);
         }

@@ -17,6 +17,7 @@ namespace JiaLab6
         [SerializeField] Transform frontLeftWheel;
         [SerializeField] Transform rearRightWheel;
         [SerializeField] Transform rearLeftWheel;
+        [SerializeField] GameObject countdown;
 
         public Rigidbody rb;
         public float acc = 10000f;
@@ -33,6 +34,26 @@ namespace JiaLab6
         }
         private void FixedUpdate()
         {
+            if (!countdown.activeSelf)
+            {
+                CarFunction();
+            }
+        }
+
+        void TurnWheels(WheelCollider collider, Transform trans)
+        {
+            Vector3 Pos;
+            Quaternion Rot;
+
+            collider.GetWorldPose(out Pos, out Rot);
+
+            trans.position = Pos;
+            trans.rotation = Rot;
+
+        }
+
+        void CarFunction()
+        {
             currentAcc = acc * Input.GetAxis("Vertical");
             if (Input.GetKey(KeyCode.Space))
             {
@@ -46,7 +67,7 @@ namespace JiaLab6
             }
             else
             {
-                
+
                 brakeLightLeft.enabled = false;
                 brakeLightRight.enabled = false;
                 currentBrake = 0f;
@@ -66,17 +87,6 @@ namespace JiaLab6
             TurnWheels(frontRight, frontRightWheel);
             TurnWheels(rearLeft, rearLeftWheel);
             TurnWheels(rearRight, rearRightWheel);
-        }
-
-        void TurnWheels(WheelCollider collider, Transform trans)
-        {
-            Vector3 Pos;
-            Quaternion Rot;
-
-            collider.GetWorldPose(out Pos, out Rot);
-
-            trans.position = Pos;
-            trans.rotation = Rot;
 
         }
     }
