@@ -11,6 +11,5 @@ public class RaceTrigger : MonoBehaviour
     {
         FinishTrigger.SetActive(true);
         HalfTrigger.SetActive(false);
-        Debug.Log("Finish trigger is: " + FinishTrigger.activeSelf);
     }
 }

@@ -16,19 +16,51 @@ namespace JiaLab6
         public GameObject FinishTrig;
         private float bestTime = Mathf.Infinity;
 
+        private int cLap = 1, AILap = 1;
+        public TextMeshProUGUI lapCountText;
+        [SerializeField] public WinState WinStateScript;
+
+
+
+        private void Update()
+        {
+            if (cLap > 3)
+            {
+                FinishTrig.SetActive(false);
+                WinStateScript.state = WinState.WoL.Win;
+            }
+            if (AILap > 3)
+            {
+                FinishTrig.SetActive(false);
+                WinStateScript.state = WinState.WoL.Lose;
+            }
+        }
+
         private void OnTriggerEnter(Collider other)
         {
-            float currentTime = LapTimeController.minutes + LapTimeController.seconds + LapTimeController.minutes;
-            if(currentTime < bestTime)
+            if (other.gameObject.CompareTag("PlayerCar"))
             {
-                bestTime = currentTime;
-                secBest.text = LapTimeController.seconds.ToString("00") + ".";
-                minBest.text = LapTimeController.minutes.ToString("00") + ":";
-                milBest.text = LapTimeController.milliseconds.ToString("000");
+                float currentTime = LapTimeController.minutes + LapTimeController.seconds + LapTimeController.minutes;
+                if (currentTime < bestTime)
+                {
+                    bestTime = currentTime;
+                    secBest.text = LapTimeController.seconds.ToString("00") + ".";
+                    minBest.text = LapTimeController.minutes.ToString("00") + ":";
+                    milBest.text = LapTimeController.milliseconds.ToString("000");
+                }
+                if (cLap < 4 && other.gameObject.CompareTag("PlayerCar"))
+                {
+                    cLap++;
+                    lapCountText.text = cLap.ToString();
+                }
+                else
+                {
+                    AILap++;
+                }
                 LapTimeController.totalTime = 0f;
+                
             }
-            HalfTrig.SetActive(true);
-            FinishTrig.SetActive(false);
+          
         }
     }
 }

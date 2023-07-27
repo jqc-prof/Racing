@@ -9,7 +9,7 @@ namespace JiaLab6
     {
         public Transform[] waypoints;       // Array of waypoints representing the race track path.
         public GameObject[] waypointObj;
-        public float speed = 20f;           // Speed of the car
+        public float speed = 10f;           // Speed of the car
         private Vector3 targetWaypoint;
         private Vector3 direction;
         [SerializeField] WheelCollider frontRight;
@@ -24,6 +24,8 @@ namespace JiaLab6
         [SerializeField] GameObject finishLap;
 
         private int currentWaypointIndex = 0;   // Index of the current waypoint.
+        public static float currentAcc = 0f;
+        public float acc = 0.0000001f;
 
         private Rigidbody rb;
 
@@ -38,6 +40,9 @@ namespace JiaLab6
             {
                 if (waypoints.Length > 0 && currentWaypointIndex < waypoints.Length)
                 {
+                    float desiredSpeed = speed * Mathf.Clamp01(Vector3.Distance(transform.position, targetWaypoint));
+                    currentAcc = Mathf.MoveTowards(currentAcc, desiredSpeed, acc * Time.deltaTime);
+                    rb.velocity = transform.forward * currentAcc;
                     targetWaypoint = waypoints[currentWaypointIndex].position;
                     direction = targetWaypoint - transform.position;
                     FollowPath();
@@ -78,11 +83,11 @@ namespace JiaLab6
           
             if (waypointObj[currentWaypointIndex].activeSelf) 
             {
-                
+
                 direction.y = 0f;
-                rb.velocity = transform.forward * speed;
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 4f);
+
                 TurnWheels(frontLeft, frontLeftWheel);
                 TurnWheels(frontRight, frontRightWheel);
                 TurnWheels(rearLeft, rearLeftWheel);

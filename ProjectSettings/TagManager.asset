@@ -7,6 +7,8 @@ TagManager:
   - chk
   - PlayerCar
   - AICarCollider
+  - AICar
+  - WheelCollider
   layers:
   - Default
   - TransparentFX

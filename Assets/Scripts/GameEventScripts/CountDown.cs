@@ -30,8 +30,9 @@ namespace JiaLab6 {
             count.text = "1";
             ready.Play();
             yield return new WaitForSeconds(1f);
-            go.Play();
+            count.text = "";
             animator.enabled = false;
+            go.Play();
             gameObject.SetActive(false);
         }
     }

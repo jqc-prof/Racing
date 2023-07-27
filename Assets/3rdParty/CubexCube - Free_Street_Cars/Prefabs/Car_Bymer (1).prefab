@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6366316473574786118}
   m_Layer: 0
   m_Name: BackLeft
-  m_TagString: Untagged
+  m_TagString: WheelCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -359,7 +359,7 @@ GameObject:
   - component: {fileID: 7194604384718348639}
   m_Layer: 0
   m_Name: FrontRight
-  m_TagString: Untagged
+  m_TagString: WheelCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -456,7 +456,7 @@ GameObject:
   - component: {fileID: 4360719976932838175}
   m_Layer: 0
   m_Name: RearRight
-  m_TagString: Untagged
+  m_TagString: WheelCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -741,7 +741,7 @@ GameObject:
   - component: {fileID: 2638591732745185673}
   m_Layer: 0
   m_Name: FrontLeft
-  m_TagString: Untagged
+  m_TagString: WheelCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -801,7 +801,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8947013645073088382}
   - component: {fileID: 953847534017505735}
-  - component: {fileID: 497300209776247742}
   - component: {fileID: 5802734090058289929}
   m_Layer: 0
   m_Name: Car_Bymer (1)
@@ -848,19 +847,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &497300209776247742
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8602435134472791492}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4.0419245, y: 2.5754075, z: 7.913338}
-  m_Center: {x: -0.10117817, y: 2.017926, z: 0.45647454}
 --- !u!114 &5802734090058289929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -873,10 +859,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8328a16576aeb8459e4db59d2e97eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetSpeed: 5000
-  maxTurn: 30
-  path: {fileID: 0}
-  waypointAccuracy: 5
+  waypoints: []
+  waypointObj: []
+  speed: 10
+  frontRight: {fileID: 0}
+  frontLeft: {fileID: 0}
+  rearRight: {fileID: 0}
+  rearLeft: {fileID: 0}
+  frontRightWheel: {fileID: 0}
+  frontLeftWheel: {fileID: 0}
+  rearRightWheel: {fileID: 0}
+  rearLeftWheel: {fileID: 0}
+  countdown: {fileID: 0}
+  finishLap: {fileID: 0}
+  acc: 0.0000001
 --- !u!1001 &100527082178059789
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -949,7 +945,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2529070338546284350, guid: 0deee216c4eff0a41aa224b0961cf58b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0deee216c4eff0a41aa224b0961cf58b, type: 3}
 --- !u!4 &6517942933273956843 stripped
 Transform:
@@ -1029,7 +1026,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2529070338546284350, guid: 0deee216c4eff0a41aa224b0961cf58b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0deee216c4eff0a41aa224b0961cf58b, type: 3}
 --- !u!4 &6924314744414481337 stripped
 Transform:
@@ -1044,6 +1042,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1152223173612539046}
     m_Modifications:
+    - target: {fileID: 2529070338546284350, guid: 0deee216c4eff0a41aa224b0961cf58b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2600165136898432895, guid: 0deee216c4eff0a41aa224b0961cf58b,
         type: 3}
       propertyPath: m_Name
@@ -1104,7 +1107,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2529070338546284350, guid: 0deee216c4eff0a41aa224b0961cf58b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0deee216c4eff0a41aa224b0961cf58b, type: 3}
 --- !u!4 &2211242652562824238 stripped
 Transform:
@@ -1179,7 +1183,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2529070338546284350, guid: 0deee216c4eff0a41aa224b0961cf58b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0deee216c4eff0a41aa224b0961cf58b, type: 3}
 --- !u!4 &3705557188944211522 stripped
 Transform:

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5052092284716992583}
   m_Layer: 0
   m_Name: FrontLeft
-  m_TagString: Untagged
+  m_TagString: WheelCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -168,7 +168,7 @@ GameObject:
   - component: {fileID: 6217743954122844532}
   m_Layer: 0
   m_Name: BackLeft
-  m_TagString: Untagged
+  m_TagString: WheelCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -324,7 +324,7 @@ GameObject:
   - component: {fileID: 838669125533203892}
   m_Layer: 0
   m_Name: FrontRight
-  m_TagString: Untagged
+  m_TagString: WheelCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -606,7 +606,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5188244688500692695}
-  - component: {fileID: 2987461822554077484}
   - component: {fileID: 4665272784831503921}
   - component: {fileID: 3721943504284849376}
   - component: {fileID: 460267651139008615}
@@ -639,19 +638,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &2987461822554077484
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4849120756351913069}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 3.8753748, y: 2.588321, z: 7.897089}
-  m_Center: {x: 0.014780045, y: 1.9520298, z: 0.49781942}
 --- !u!114 &4665272784831503921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -674,6 +660,8 @@ MonoBehaviour:
   frontLeftWheel: {fileID: 8334565183322606269}
   rearRightWheel: {fileID: 5970323955687997938}
   rearLeftWheel: {fileID: 7142533142697465105}
+  countdown: {fileID: 0}
+  finishLap: {fileID: 0}
   rb: {fileID: 460267651139008615}
   acc: 10000
   brake: 9000
@@ -817,7 +805,7 @@ GameObject:
   - component: {fileID: 233252235528683294}
   m_Layer: 0
   m_Name: RearRight
-  m_TagString: Untagged
+  m_TagString: WheelCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
