@@ -13,6 +13,7 @@ namespace JiaLab6
         public TextMeshProUGUI mil;
         public static float totalTime = 0f; // Variable to store the total time
         public GameObject countdown;
+        public GameObject finishLap;
 
         public static int minutes;
         public static int seconds;
@@ -20,7 +21,7 @@ namespace JiaLab6
         void Update()
         {
             
-            if (!countdown.activeSelf)
+            if (!countdown.activeSelf && finishLap.activeSelf)
             {
                 // Calculate minutes, seconds, and milliseconds directly from Time.deltaTime
                 float deltaTime = Time.deltaTime;

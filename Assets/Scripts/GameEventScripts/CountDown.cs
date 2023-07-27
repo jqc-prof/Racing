@@ -31,8 +31,6 @@ namespace JiaLab6 {
             ready.Play();
             yield return new WaitForSeconds(1f);
             go.Play();
-            count.text = "GO";
-            yield return new WaitForSeconds(1f);
             animator.enabled = false;
             gameObject.SetActive(false);
         }

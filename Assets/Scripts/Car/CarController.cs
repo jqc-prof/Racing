@@ -18,11 +18,12 @@ namespace JiaLab6
         [SerializeField] Transform rearRightWheel;
         [SerializeField] Transform rearLeftWheel;
         [SerializeField] GameObject countdown;
+        [SerializeField] GameObject finishLap;
 
         public Rigidbody rb;
         public float acc = 10000f;
         public float brake = 9000f;
-        private float currentAcc = 0f;
+        public static float currentAcc = 0f;
         private float currentBrake = 0f;
         public float maxTurn = 30f;
         private float currentTurn = 0f;
@@ -34,7 +35,7 @@ namespace JiaLab6
         }
         private void FixedUpdate()
         {
-            if (!countdown.activeSelf)
+            if (!countdown.activeSelf && finishLap.activeSelf)
             {
                 CarFunction();
             }
@@ -80,6 +81,7 @@ namespace JiaLab6
             frontLeft.brakeTorque = currentBrake;
 
             currentTurn = maxTurn * Input.GetAxis("Horizontal");
+            currentTurn = Mathf.Clamp(currentTurn, -maxTurn, maxTurn);
             frontLeft.steerAngle = currentTurn;
             frontRight.steerAngle = currentTurn;
 
@@ -89,5 +91,6 @@ namespace JiaLab6
             TurnWheels(rearRight, rearRightWheel);
 
         }
+
     }
 }
